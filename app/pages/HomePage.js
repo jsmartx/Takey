@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginTop: 5,
-    marginRight: 5
+    marginLeft: 5
   },
   time: {
     color: '#666',

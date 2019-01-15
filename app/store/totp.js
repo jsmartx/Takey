@@ -1,4 +1,4 @@
-import { totp } from 'botp';
+import otp from 'otplib/otplib-browser';
 
 export default {
   state: {
@@ -17,7 +17,7 @@ export default {
       if (isNew) {
         list.push({
           ...item,
-          otp: totp.gen(item.secret)
+          otp: otp.authenticator.generate(item.secret)
         });
       }
       return { ...state, list };
@@ -29,7 +29,7 @@ export default {
     update(state) {
       const list = state.list.map(item => ({
         ...item,
-        otp: totp.gen(item.secret)
+        otp: otp.authenticator.generate(item.secret)
       }));
       return { ...state, list };
     }

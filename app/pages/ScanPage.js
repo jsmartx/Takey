@@ -4,7 +4,6 @@ import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { RNCamera } from 'react-native-camera';
 import parse from 'url-parse';
-import { decode } from 'botp/base32';
 
 const styles = StyleSheet.create({
   container: {
@@ -73,10 +72,10 @@ class ScanPage extends Component {
 
     const { dispatch, navigation } = this.props;
     const { protocol, host, pathname, query } = parse(data, true);
+    const { secret } = query;
 
-    if (protocol === 'otpauth:' && host === 'totp') {
+    if (protocol === 'otpauth:' && host === 'totp' && secret) {
       const name = pathname.replace(/^\//, '');
-      const secret = decode(query.secret);
       dispatch({
         type: 'totp/add',
         payload: { name, secret }
@@ -93,6 +92,7 @@ class ScanPage extends Component {
         <RNCamera
           style={styles.camera}
           onBarCodeRead={this.barCodeRead}
+          captureAudio={false}
         >
           <View style={styles.rectWrap}>
             <View style={styles.rect}>
